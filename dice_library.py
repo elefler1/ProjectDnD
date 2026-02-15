@@ -19,8 +19,11 @@ def roll_d8():
 def roll_d10():
     return random.randint(1, 10)
 # Roll a d12 to determine the amount of damage dealt with Greataxes and high damage spells.
-def roll_d12():
-    return random.randint(1, 12)
+def roll_attack_d12(level):
+    total = 0
+    for _ in range(level):
+        total += random.randint(1, 12)
+    return total
 # Roll a 2d6 to determine the amount of damage dealt with Greatswords and Mauls.
 def roll_2d6():
     return random.randint(1, 6) + random.randint(1, 6)

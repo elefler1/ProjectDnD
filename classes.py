@@ -4,6 +4,8 @@
 
 
 # Functions for choosing starting equipment and skill proficiencies for multiple classes.
+import math
+
 musical_instruments = ['Lute', 'Flute', 'Drum', 'Horn', 'Pan Flute', 'Shawm', 'Viol']
 artisans_tools = ['Alchemist\'s Supplies', 'Brewer\'s Supplies', 'Calligrapher\'s Supplies', 'Carpenter\'s Tools', 'Cartographer\'s Tools', 'Cobbler\'s Tools', 'Cook\'s Utensils', 'Glassblower\'s Tools', 'Jeweler\'s Tools', 'Leatherworker\'s Tools', 'Mason\'s Tools', 'Painter\'s Supplies', 'Potter\'s Tools', 'Smith\'s Tools', 'Tinker\'s Tools', 'Weaver\'s Tools', 'Woodcarver\'s Tools']
 skill_proficiencies = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival']
@@ -49,12 +51,15 @@ def choose_skill_proficiency(skill_proficiencies, choices):
 
 classes = {
     'barbarian': {
-
+        # Description:
+        'description': "Barbarians are fierce warriors of primitive background who can enter a battle rage.",
         # Barbarian Core Traits:
         'core_traits': {
             'level': 1,
             'primary_ability': ['Strength'],
             'hit_die': '1d12',
+            'hit_die_max': 12,
+            'hit_die_avg': 7,
             'saving_throws': ['Strength', 'Constitution'],
             'skill_proficiencies': ['Animal Handling', 'Athletics', 'Intimidation', 'Nature', 'Perception', 'Survival'],
             'weapon_proficiencies': ['Simple Weapons', 'Martial Weapons'],
@@ -74,143 +79,124 @@ classes = {
         'feature_tables': {
             1: {
                 'proficiency_bonus': 2,
-                'features': ['Rage', 'Unarmored Defense', 'Weapon Mastery'],
+                'features': ['Rage', 'Unarmored Defense'],
                 'rages': 2,
                 'rage_damage': 2,
-                'weapon_mastery': 2
                 },
             2: {
                 'proficiency_bonus': 2,
                 'features': ['Reckless Attack', 'Danger Sense'],
                 'rages': 2,
                 'rage_damage': 2,
-                'weapon_mastery': 2
             },
             3: {
                 'proficiency_bonus': 2,
-                'features': ['Primal Knowledge', 'barbarian Subclass'],
+                'features': ['Primal Path'],
                 'rages': 3,
                 'rage_damage': 2,
-                'weapon_mastery': 2
             },
             4: {
                 'proficiency_bonus': 2,
                 'features': ['Ability Score Improvement'],
                 'rages': 3,
                 'rage_damage': 2,
-                'weapon_mastery': 2
             },
             5: {
                 'proficiency_bonus': 3,
-                'features': ['Subclass Feature'],
+                'features': ['Extra Attack', 'Fast Movement'],
                 'rages': 3,
                 'rage_damage': 2,
-                'weapon_mastery': 3
             },
             6: {
                 'proficiency_bonus': 3,
-                'features': ['Subclass Feature'],
+                'features': ['Path feature'],
                 'rages': 4,
                 'rage_damage': 2,
-                'weapon_mastery': 3
             },
             7: {
                 'proficiency_bonus': 3,
                 'features': ['Feral Instinct'],
                 'rages': 4,
                 'rage_damage': 2,
-                'weapon_mastery': 3
             },
             8: {
                 'proficiency_bonus': 3,
                 'features': ['Ability Score Improvement'],
                 'rages': 4,
                 'rage_damage': 2,
-                'weapon_mastery': 3
             },
             9: {
                 'proficiency_bonus': 4,
                 'features': ['Brutal Critical (1 die)'],
                 'rages': 4,
                 'rage_damage': 3,
-                'weapon_mastery': 3
             },
             10: {
                 'proficiency_bonus': 4,
-                'features': ['Intimidating Presence'],
+                'hit_points': 12,
+                'features': ['Path feature'],
                 'rages': 4,
                 'rage_damage': 3,
-                'weapon_mastery': 4
             },
             11: {
                 'proficiency_bonus': 4,
                 'features': ['Relentless Rage'],
                 'rages': 4,
                 'rage_damage': 3,
-                'weapon_mastery': 4
             },
             12: {
                 'proficiency_bonus': 4,
                 'features': ['Ability Score Improvement'],
-                'rages': 4,
+                'rages': 5,
                 'rage_damage': 3,
-                'weapon_mastery': 4
             },
             13: {
                 'proficiency_bonus': 5,
                 'features': ['Brutal Critical (2 dice)'],
                 'rages': 5,
                 'rage_damage': 3,
-                'weapon_mastery': 4
             },
             14: {
                 'proficiency_bonus': 5,
-                'features': ['Retaliation'],
+                'features': ['Path feature'],
                 'rages': 5,
                 'rage_damage': 3,
-                'weapon_mastery': 4
             },
             15: {
                 'proficiency_bonus': 5,
                 'features': ['Persistent Rage'],
                 'rages': 5,
-                'rage_damage': 4,
-                'weapon_mastery': 4
+                'rage_damage': 3,
             },
             16: {
                 'proficiency_bonus': 5,
                 'features': ['Ability Score Improvement'],
                 'rages': 5,
                 'rage_damage': 4,
-                'weapon_mastery': 4
             },
             17: {
                 'proficiency_bonus': 6,
                 'features': ['Brutal Critical (3 dice)'],
                 'rages': 6,
                 'rage_damage': 4,
-                'weapon_mastery': 4
             },
             18: {
                 'proficiency_bonus': 6,
                 'features': ['Indomitable Might'],
                 'rages': 6,
                 'rage_damage': 4,
-                'weapon_mastery': 4
             },
             19: {
                 'proficiency_bonus': 6,
                 'features': ['Ability Score Improvement'],
                 'rages': 6,
                 'rage_damage': 4,
-                'weapon_mastery': 4
             },
             20: {
                 'proficiency_bonus': 6,
                 'features': ['Primal Champion'],
-                'rages': 6,
+                'rages': float('inf'),
                 'rage_damage': 4,
-                'weapon_mastery': 4
             }
         }
     },
